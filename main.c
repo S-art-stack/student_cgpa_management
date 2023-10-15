@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h> //strcmp
 
 // store student information
 typedef struct
@@ -96,6 +97,7 @@ void swap(Student *a, Student *b)
 
 int main()
 {
+    printf("Student CGPA Management\n-----------------------\n***\nRule book\n1. Press CTRL+C or enter -1 to exit the program\n2. Check the txt files in the program file to see the processed data.\n***\n");
     char *in = (char *)malloc(10);
 
     // taking number of students
@@ -105,6 +107,12 @@ int main()
     while (1)
     {
         scanf("%s", in);
+        // check for "-1"
+        if (strcmp(in, "-1") == 0)
+        {
+            printf("Program Closed!\n----------------\n");
+            return 0;
+        }
         if (isNum(in)) // isNum() -> 1 if the number only contain numeric values
             break;
         else // tell user to reenter the number
@@ -112,18 +120,6 @@ int main()
     }
     // number of students
     int n = toNum(in);
-
-    // // taking bonus point
-    // printf("Enter bonus point: ");
-    // while (1)
-    // {
-    //     scanf("%s", in);
-    //     if (isNum(in))
-    //         break;
-    //     else
-    //         printf("Please enter a valid point(number): ");
-    // }
-    // int bonus_point = toNum(in);
 
     Student students[n];
 
