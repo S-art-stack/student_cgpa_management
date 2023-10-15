@@ -23,7 +23,6 @@ int toNum(char *s)
     return n;
 }
 
-
 // convert a string into flaot
 float toFloat(char *s)
 {
@@ -39,7 +38,7 @@ float toFloat(char *s)
     i++;
     int div = 10;
     // taking number after the floating point
-    while(s[i] != '\0')
+    while (s[i] != '\0')
     {
         n = n + (((float)1 / (div)) * (s[i] - 48));
         div *= 10;
@@ -114,17 +113,17 @@ int main()
     // number of students
     int n = toNum(in);
 
-    // taking bonus point
-    printf("Enter bonus point: ");
-    while (1)
-    {
-        scanf("%s", in);
-        if (isNum(in))
-            break;
-        else
-            printf("Please enter a valid point(number): ");
-    }
-    int bonus_point = toNum(in);
+    // // taking bonus point
+    // printf("Enter bonus point: ");
+    // while (1)
+    // {
+    //     scanf("%s", in);
+    //     if (isNum(in))
+    //         break;
+    //     else
+    //         printf("Please enter a valid point(number): ");
+    // }
+    // int bonus_point = toNum(in);
 
     Student students[n];
 
@@ -144,8 +143,11 @@ int main()
     for (int i = 0; i < n; i++)
     {
         printf("Enter details for Student %d:\n", i + 1);
+
+        // taking name
         printf("Name: ");
         scanf(" %[^\n]s", students[i].name);
+
         // taking roll
         // checking if the roll in a correct number
         while (1)
@@ -185,6 +187,18 @@ int main()
                 printf("Invalid CGPA.\n");
             }
         }
+
+        // taking bonus point
+        while (1)
+        {
+            printf("Bonus point: ");
+            scanf("%s", in);
+            if (isNum(in))
+                break;
+            else
+                printf("Please enter a valid point(number): ");
+        }
+        students[i].bonus = toNum(in);
     }
 
     // sorting the inputed data (students) with
@@ -204,12 +218,10 @@ int main()
         fprintf(inputFile, "%d %s %.2f\n", students[i].roll, students[i].name, students[i].cgpa);
         if (students[i].cgpa > 3.8)
         {
-            students[i].bonus = bonus_point;
             fprintf(highCgpaFile, "%s %d %.2f %d\n", students[i].name, students[i].roll, students[i].cgpa, students[i].bonus);
         }
         else
         {
-            students[i].bonus = 0;
             fprintf(lowCgpaFile, "%s %d %.2f %d\n", students[i].name, students[i].roll, students[i].cgpa, students[i].bonus);
         }
     }
