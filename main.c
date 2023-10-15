@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h> //strcmp
 
 // store student information
 typedef struct
@@ -23,7 +24,6 @@ int toNum(char *s)
     return n;
 }
 
-
 // convert a string into flaot
 float toFloat(char *s)
 {
@@ -39,7 +39,7 @@ float toFloat(char *s)
     i++;
     int div = 10;
     // taking number after the floating point
-    while(s[i] != '\0')
+    while (s[i] != '\0')
     {
         n = n + (((float)1 / (div)) * (s[i] - 48));
         div *= 10;
@@ -97,6 +97,7 @@ void swap(Student *a, Student *b)
 
 int main()
 {
+    printf("Student CGPA Management\n-----------------------\n***\nRule book\n1. Press CTRL+C or enter -1 to exit the program\n2. Check the txt files in the program file to see the processed data.\n***\n");
     char *in = (char *)malloc(10);
 
     // taking number of students
@@ -106,6 +107,12 @@ int main()
     while (1)
     {
         scanf("%s", in);
+        // check for "-1"
+        if (strcmp(in, "-1") == 0)
+        {
+            printf("Program Closed!\n----------------\n");
+            return 0;
+        }
         if (isNum(in)) // isNum() -> 1 if the number only contain numeric values
             break;
         else // tell user to reenter the number
@@ -113,18 +120,6 @@ int main()
     }
     // number of students
     int n = toNum(in);
-
-    // taking bonus point
-    printf("Enter bonus point: ");
-    while (1)
-    {
-        scanf("%s", in);
-        if (isNum(in))
-            break;
-        else
-            printf("Please enter a valid point(number): ");
-    }
-    int bonus_point = toNum(in);
 
     Student students[n];
 
@@ -144,8 +139,11 @@ int main()
     for (int i = 0; i < n; i++)
     {
         printf("Enter details for Student %d:\n", i + 1);
+
+        // taking name
         printf("Name: ");
         scanf(" %[^\n]s", students[i].name);
+
         // taking roll
         // checking if the roll in a correct number
         while (1)
@@ -185,6 +183,18 @@ int main()
                 printf("Invalid CGPA.\n");
             }
         }
+
+        // taking bonus point
+        while (1)
+        {
+            printf("Bonus point: ");
+            scanf("%s", in);
+            if (isNum(in))
+                break;
+            else
+                printf("Please enter a valid point(number): ");
+        }
+        students[i].bonus = toNum(in);
     }
 
     // sorting the inputed data (students) with
@@ -204,12 +214,10 @@ int main()
         fprintf(inputFile, "%d %s %.2f\n", students[i].roll, students[i].name, students[i].cgpa);
         if (students[i].cgpa > 3.8)
         {
-            students[i].bonus = bonus_point;
             fprintf(highCgpaFile, "%s %d %.2f %d\n", students[i].name, students[i].roll, students[i].cgpa, students[i].bonus);
         }
         else
         {
-            students[i].bonus = 0;
             fprintf(lowCgpaFile, "%s %d %.2f %d\n", students[i].name, students[i].roll, students[i].cgpa, students[i].bonus);
         }
     }
